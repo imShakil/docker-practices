@@ -1,0 +1,14 @@
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/.terraform.tfvars
+
+# System files
+.DS_Store
+*.log
+
+# SSH keys
+**/*.pem
+**/*.key
