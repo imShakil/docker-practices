@@ -15,3 +15,8 @@ fi
 
 echo "Docker version: $(docker --version)"
 echo "Docker is installed and running..."
+
+# Add current user to docker group
+usermod -aG docker $USER
+usermod -aG docker ec2-user 2>/dev/null || true
+usermod -aG docker ubuntu 2>/dev/null || true
