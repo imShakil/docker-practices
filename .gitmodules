@@ -1,0 +1,3 @@
+[submodule "multi-stage-docker/my-react-app"]
+	path = multi-stage-docker/my-react-app
+	url = https://github.com/pravinmishraaws/my-react-app.git
