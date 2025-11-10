@@ -15,7 +15,6 @@ fi
 
 echo "Docker version: $(docker --version)"
 echo "Docker is installed and running..."
-
 echo "Creating Dockerfile"
 cat > Dockerfile << EOF
 FROM nginx:alpine
@@ -24,7 +23,6 @@ EOF
 
 echo "Download static website"
 wget https://raw.githubusercontent.com/pravinmishraaws/Azure-Static-Website/refs/heads/main/index.html
-
 
 if [ -f "index.html" ]; then
     echo "index.html downloaded successfully."

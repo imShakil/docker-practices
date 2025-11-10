@@ -12,7 +12,7 @@ resource "aws_instance" "vm" {
   instance_type = "t2.micro"
   key_name = aws_key_pair.ssh-key.key_name
 
-  user_data_base64 = base64encode(file("../docker-deploy.sh"))
+  user_data_base64 = base64encode(file("../docker-install.sh"))
 }
 
 output "ec2-ip" {
