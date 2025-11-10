@@ -8,7 +8,7 @@ This project demonstrates automated Docker installation and container deployment
 - Creates a Docker image with Nginx serving a static website
 - Runs the container on port 80
 
-## Two Deployment Methods
+## Two Docker Setup Methods
 
 ### Method 1: Terraform (Automated)
 
@@ -23,32 +23,78 @@ terraform apply
 This will:
 
 - Create an AWS EC2 instance
-- Automatically run the deployment script via cloud-init
+- Automatically install docker environment via cloud-init
 - Set up SSH key pair for access
 
 ### Method 2: Manual VM + Script
 
-1. Launch an EC2 instance manually from AWS Console
-2. SSH into the instance
-3. Run the deployment script:
+Launch an EC2 instance manually from AWS Console using this [docker-install.sh](docker-install.sh) script in user data
 
-```bash
-chmod +x docker-deploy.sh
-sudo ./docker-deploy.sh
-```
+## Docker Deployment
 
-## Files
+0. SSH into instance:
 
-- `docker-deploy.sh` - Main deployment script
-- `terraform/main.tf` - Terraform configuration
-- `terraform/backend.tf` - Terraform backend setup
+    ```sh
+    ssh -i private-key user@vm-public-ip
+    ```
 
-## Requirements
+1. create this directory
 
-- AWS CLI configured (for Terraform method)
-- SSH key pair at `~/.ssh/id_rsa.pub` (for Terraform method)
-- EC2 instance with internet access (for manual method)
+    ```sh
+    mkdir -p static-web
+    cd static-web
+    ```
+
+2. create a Dockerfile:
+
+    ```sh
+    touch Dockerfile
+    ```
+
+3. Update Dockerfile
+
+    ```sh
+    FROM nginx:alpine
+
+    COPY index.html /usr/share/nginx/html
+    ```
+
+4. Let's download the static website:
+
+    ```sh
+    wget https://raw.githubusercontent.com/pravinmishraaws/Azure-Static-Website/refs/heads/main/index.html
+    ```
+
+5. Build Docker image
+
+    ```sh
+    docker build -t static-web:latest .
+    ```
+
+6. Run the container:
+
+    ```sh
+    docker run -d --name st-web -p 80:80 static-web:latest
+    ```
+
+7. Check Status
+
+    ```sh
+    docker ps
+    ```
 
 ## Access
 
 After deployment, access the static website at `http://<instance-ip>`
+
+## Destroy
+
+### Terraform destroy
+
+```sh
+terraform destroy -auto-approve
+```
+
+### Manual Destroy
+
+Go to conosle and remove the VM.
