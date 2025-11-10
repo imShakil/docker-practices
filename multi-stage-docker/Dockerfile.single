@@ -1,14 +1,14 @@
-#syntax=docker/dockerfile:experimental
-
-FROM node:20
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY ./my-react-app .
 
 RUN npm install
 RUN npm run build
+RUN npm install -g serve
 
+USER node
 EXPOSE 3000
 
-CMD ['npm', 'start']
+CMD ["serve", "-s", "build", "-l", "3000"]
