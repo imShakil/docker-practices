@@ -1,8 +1,8 @@
 db = db.getSiblingDB('moviedb');
 
-db.users.insertMany([
-  { name: "Mobarak", favMovie: "Inception" },
-  { name: "Anjana", favMovie: "The Harry Potter" }
+db.movies.insertMany([
+  { name: "Mobarak", movie: "Inception" },
+  { name: "Anjana", movie: "The Harry Potter" }
 ]);
 
 print("✅ Sample data inserted!");
