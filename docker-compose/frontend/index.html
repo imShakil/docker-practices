@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Demo Page - Presented by DMIC Team</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+            h2 { color: #333; }
+            form { margin: 20px 0; }
+            input { padding: 10px; margin: 5px; width: 200px; border: 1px solid #ddd; border-radius: 4px; }
+            button { padding: 10px 20px; background: #007cba; color: white; border: none; border-radius: 4px; cursor: pointer; }
+            button:hover { background: #005a87; }
+            ul { list-style-type: none; padding: 0; }
+            li { padding: 8px; margin: 5px 0; background: #f5f5f5; border-radius: 4px; }
+        </style>
+    </head>
+
+    <body>
+
+        <h2>Welcome to Show</h2>
+        <p>You are accessing the frontend application running in the docker container</p>
+
+        <h2>Add your most favourite movie to share with us!</h2>
+        <form id="movieForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="text" id="movie" placeholder="Your Favorite Movie" required>
+            <button type="submit">Share Movie</button>
+        </form>
+
+        <div id="movieList">
+            <h3>Shared Movies:</h3>
+            <ul id="movies"></ul>
+        </div>
+
+        <script>
+            const movieForm = document.getElementById('movieForm');
+            const moviesList = document.getElementById('movies');
+
+            // Fetch movies
+            async function loadMovies() {
+                try {
+                    const response = await fetch('/api/movies');
+                    const movies = await response.json();
+                    moviesList.innerHTML = movies.map(movie => 
+                        `<li><strong>${movie.name}</strong>: ${movie.movie}</li>`
+                    ).join('');
+                } catch (error) {
+                    console.error('Error loading movies:', error);
+                }
+            }
+
+            // Add movie
+            movieForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const movieData = {
+                    name: document.getElementById('name').value,
+                    movie: document.getElementById('movie').value
+                };
+                
+                try {
+                    await fetch('/api/movies', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(movieData)
+                    });
+                    movieForm.reset();
+                    loadMovies();
+                } catch (error) {
+                    console.error('Error adding movie:', error);
+                }
+            });
+
+            // Load movies on page load
+            loadMovies();
+        </script>
+
+    </body>
+</html>
