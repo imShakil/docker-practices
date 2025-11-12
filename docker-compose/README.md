@@ -68,6 +68,8 @@ docker-compose up --build -d
 3. Click "Share Movie"
 4. See your movie in the shared list
 
+![demo](./demo.png)
+
 ## Project Structure
 
 ```files
