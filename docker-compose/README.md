@@ -9,6 +9,18 @@ A 3-tier containerized application demonstrating Docker Compose with Flask, Mong
 
 ## Getting Started
 
+### Option 0: Install Docker
+
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh ./get-docker.sh
+sudo usermod -aG docker ubuntu 2>/dev/null || true
+
+# test
+su - $USER
+docker ps
+```
+
 ### Option 1: Clone Entire Repository
 
 ```bash
@@ -50,20 +62,20 @@ EOF
 
 ```bash
 # Build and start all services
-docker-compose up --build
+docker compose up --build
 
 # Or run in background
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 ### 3. Access Application
 
-- **Frontend**: http://localhost
+- **Frontend**: http://localhost or VM public IP
 - **Database**: localhost:27017 (if needed)
 
 ### 4. Test the Application
 
-1. Open http://localhost in browser
+1. Open http://localhost or http://<vm-public-ip> in browser
 2. Add your name and favorite movie
 3. Click "Share Movie"
 4. See your movie in the shared list
