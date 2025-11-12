@@ -4,12 +4,16 @@ services:
     image: app:db
     container_name: db
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MDB_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MDB_PASSWORD
+      MONGO_INITDB_DATABASE: $MDB_NAME
     networks:
       - backend-network
     volumes:
       - mongo-data:/data/db
     ports:
-      - "27017:27017"
+      - 27017:27017
 
   backend:
     build: ./backend
@@ -17,7 +21,7 @@ services:
     container_name: api
     restart: always
     environment:
-      - MONGO_URI=mongodb://db:27017/moviedb
+      - MONGO_URI=mongodb://${MDB_USERNAME}:${MDB_PASSWORD}@database:27017/${MDB_NAME}
     depends_on:
       - database
     networks:
@@ -29,12 +33,14 @@ services:
     image: app:ui
     container_name: ui
     restart: always
+    environment:
+      - BACKEND_URI=$BACKEND_URI
     depends_on:
       - backend
     networks:
       - frontend-network
     ports:
-      - "80:80"
+      - 80:80
 
 networks:
   backend-network:
