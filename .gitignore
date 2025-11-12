@@ -12,3 +12,8 @@
 # SSH keys
 **/*.pem
 **/*.key
+.venv
+**/.venv
+*.env
+**/.env
+**/.env.local

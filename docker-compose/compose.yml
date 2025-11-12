@@ -5,9 +5,9 @@ services:
     container_name: db
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: $MDB_USERNAME
-      MONGO_INITDB_ROOT_PASSWORD: $MDB_PASSWORD
-      MONGO_INITDB_DATABASE: $MDB_NAME
+      MONGO_INITDB_ROOT_USERNAME: ${MDB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MDB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MDB_NAME}
     networks:
       - backend-network
     volumes:
@@ -21,7 +21,7 @@ services:
     container_name: api
     restart: always
     environment:
-      - MONGO_URI=mongodb://${MDB_USERNAME}:${MDB_PASSWORD}@database:27017/${MDB_NAME}
+      - MONGO_URI=mongodb://${MDB_USERNAME}:${MDB_PASSWORD}@database:27017/${MDB_NAME}?authSource=admin
     depends_on:
       - database
     networks:
@@ -34,7 +34,7 @@ services:
     container_name: ui
     restart: always
     environment:
-      - BACKEND_URI=$BACKEND_URI
+      - BACKEND_URI=${BACKEND_URI}
     depends_on:
       - backend
     networks:
