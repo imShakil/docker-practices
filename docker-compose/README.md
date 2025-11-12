@@ -1,6 +1,6 @@
-# Docker Compose Movie Demo
+# Docker Compose Demo Project
 
-A full-stack movie sharing application demonstrating Docker Compose with Flask, MongoDB, and Nginx.
+A 3-tier containerized application demonstrating Docker Compose with Flask, MongoDB, and Nginx.
 
 ## Prerequisites
 
