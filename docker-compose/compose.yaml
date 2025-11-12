@@ -3,6 +3,7 @@ version: "3.8"
 services:
   database:
     build: ./database
+    image: app:db
     container_name: db
     restart: always
     networks:
@@ -14,8 +15,13 @@ services:
 
   backend:
     build: ./backend
+    image: app:api
     container_name: api
     restart: always
+    environment:
+      - MONGO_URI=mongodb://db:27017/moviedb
+    ports:
+      - "5000:5000"
     depends_on:
       - database
     networks:
@@ -24,6 +30,7 @@ services:
 
   frontend:
     build: ./frontend
+    image: app:ui
     container_name: ui
     restart: always
     depends_on:

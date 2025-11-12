@@ -1,4 +1,4 @@
-FROM mongo:8.2.1-nanoserver
+FROM mongo:8.2.1
 
 COPY init-data.js /docker-entrypoint-initdb.d/
 
