@@ -17,7 +17,7 @@ sudo sh ./get-docker.sh
 sudo usermod -aG docker ubuntu 2>/dev/null || true
 
 # test
-su - $USER
+sudo su - $USER
 docker ps
 ```
 
