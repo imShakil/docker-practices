@@ -1,3 +1,6 @@
 [submodule "multi-stage-docker/my-react-app"]
 	path = multi-stage-docker/my-react-app
 	url = https://github.com/pravinmishraaws/my-react-app.git
+[submodule "book-review-containerization/book-review-app"]
+	path = book-review-containerization/book-review-app
+	url = https://github.com/pravinmishraaws/book-review-app.git
