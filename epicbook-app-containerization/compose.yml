@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: bookstore
+      MYSQL_USER: pravin
+      MYSQL_PASSWORD: Demo12@Test23
+    networks:
+      - db_network
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init_db:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+
+  epicbook:
+    build: ./epicbook-app
+    image: epicbook:latest
+    container_name: epicbook_container
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - db_network
+      - app_network
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"] 
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+
+volumes:
+  - mysql_data:
+
+networks:
+  - db_network
+  - app_network
