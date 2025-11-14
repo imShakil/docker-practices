@@ -22,7 +22,7 @@ services:
       - mysql_data:/var/lib/mysql
 
   epicbook:
-    build: ./epicbook-app
+    build: ./
     image: epicbook:latest
     container_name: epicbook_container
     restart: always
@@ -34,13 +34,35 @@ services:
       - app_network
     env_file:
       - .env
-    ports:
-      - "3000:3000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"] 
+      test: ["CMD", "wget", "--spider", "http://localhost:8080/"]
       interval: 10s
       timeout: 5s
       retries: 5
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.epicbook.entrypoints=web"
+      - "traefik.http.routers.epicbook.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.epicbook.service=epicbook"
+      - "traefik.http.services.epicbook.loadbalancer.server.port=8080" # Your NodeJS app's internal port
+  traefik:
+    image: traefik:v3.4
+    container_name: traefik_container
+    restart: always
+    depends_on:
+      epicbook:
+        condition: service_healthy
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - app_network
 
 volumes:
   mysql_data:
