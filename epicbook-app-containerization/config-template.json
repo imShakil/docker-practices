@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "${MYSQL_USER}",
-    "password": "${MYSQL_PASSWORD}",
-    "database": "bookstore",
-    "host": "${MYSQL_HOST}",
-    "dialect": "mysql"
-  }
-}
