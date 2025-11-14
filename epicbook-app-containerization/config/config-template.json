@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "root",
-    "password": "demo1234",
+    "username": "${MYSQL_USER}",
+    "password": "${MYSQL_PASSWORD}",
     "database": "bookstore",
     "host": "127.0.0.1",
     "dialect": "mysql"
